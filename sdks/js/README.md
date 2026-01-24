@@ -16,13 +16,13 @@ Abhedya is a high-performance Post-Quantum Cryptography (PQC) library enabling *
 ## Installation
 
 ```bash
-npm install abhedya-sdk
+npm install @abhedyam/sdk
 ```
 
 ## Usage
 
 ```javascript
-const { Abhedya, EncryptionMode } = require("abhedya-sdk");
+const { Abhedya, EncryptionMode } = require("@abhedyam/sdk");
 
 // Initialize
 const sdk = new Abhedya();
