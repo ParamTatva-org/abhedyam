@@ -15,15 +15,15 @@ In **Metered Mode**, the raw output fails Monobit/Runs (expected due to Meter st
 Tests performed on the raw Lattice Integers (Mod 3329), stripping encoding.
 | Test Name | P-Value | Threshold | Result |
 | :--- | :--- | :--- | :--- |
-| **Frequency (Monobit)** | 0.000001 | $\ge 0.01$ | FAIL (Expected in Meter) |
+| **Frequency (Monobit)** | 0.000000 | $\ge 0.01$ | FAIL (Expected in Meter) |
 | **Runs Test** | 0.000000 | $\ge 0.01$ | FAIL (Expected in Meter) |
 
 ### B. High-Bit Security Layer (Proof of Hardness)
 Tests performed on the top 8 bits (MSBs) of the LWE output, ignoring the Meter-carrying bits.
 | Test Name | P-Value | Threshold | Result |
 | :--- | :--- | :--- | :--- |
-| **Frequency (Monobit)** | 0.037308 | $\ge 0.01$ | PASS |
-| **Runs Test** | 0.748122 | $\ge 0.01$ | PASS |
+| **Frequency (Monobit)** | 0.991856 | $\ge 0.01$ | PASS |
+| **Runs Test** | 0.007955 | $\ge 0.01$ | FAIL |
 
 ### C. Encoded Layer (Sanskrit/UTF-8)
 Tests performed on the final wire format.
@@ -37,15 +37,15 @@ Tests performed on the final wire format.
 ## 3. Cryptographic Properties
 
 ### Avalanche Effect (Diffusion)
-*   **Observed Rate**: 6.1909%
+*   **Observed Rate**: 6.1907%
 *   **Verdict**: GOOD (Evidence of strong diffusion in Lattice structure)
 
 ### Reliability (KAT Simulation)
 *   **Success Rate**: 100% (1000 Iterations)
 
 ## 4. Performance Profile
-*   **Avg Encryption**: 352.13µs
-*   **Avg Decryption**: 747.00ns
+*   **Avg Encryption**: 6.34ms
+*   **Avg Decryption**: 6.42µs
 
 ## 5. Validation & Reproduction
 To validate these results and run the compliance suite locally:
