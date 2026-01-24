@@ -1,6 +1,6 @@
 {
   "name": "abhedya-sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Node.js SDK for Abhedya: Sanskrit-Encoded Post-Quantum Cryptography",
   "main": "index.js",
   "scripts": {
