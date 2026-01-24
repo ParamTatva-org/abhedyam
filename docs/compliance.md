@@ -22,8 +22,8 @@ Tests performed on the raw Lattice Integers (Mod 3329), stripping encoding.
 Tests performed on the top 8 bits (MSBs) of the LWE output, ignoring the Meter-carrying bits.
 | Test Name | P-Value | Threshold | Result |
 | :--- | :--- | :--- | :--- |
-| **Frequency (Monobit)** | 0.991856 | $\ge 0.01$ | PASS |
-| **Runs Test** | 0.007955 | $\ge 0.01$ | FAIL |
+| **Frequency (Monobit)** | 0.041194 | $\ge 0.01$ | PASS |
+| **Runs Test** | 0.888207 | $\ge 0.01$ | PASS |
 
 ### C. Encoded Layer (Sanskrit/UTF-8)
 Tests performed on the final wire format.
@@ -37,15 +37,15 @@ Tests performed on the final wire format.
 ## 3. Cryptographic Properties
 
 ### Avalanche Effect (Diffusion)
-*   **Observed Rate**: 6.1907%
+*   **Observed Rate**: 6.1870%
 *   **Verdict**: GOOD (Evidence of strong diffusion in Lattice structure)
 
 ### Reliability (KAT Simulation)
 *   **Success Rate**: 100% (1000 Iterations)
 
 ## 4. Performance Profile
-*   **Avg Encryption**: 6.34ms
-*   **Avg Decryption**: 6.42µs
+*   **Avg Encryption**: 2.63ms
+*   **Avg Decryption**: 2.22µs
 
 ## 5. Validation & Reproduction
 To validate these results and run the compliance suite locally:
