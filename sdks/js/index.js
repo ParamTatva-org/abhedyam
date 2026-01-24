@@ -1,29 +1,6 @@
-const ffi = require('ffi-napi');
-const ref = require('ref-napi');
+const koffi = require('koffi');
 const path = require('path');
 const os = require('os');
-
-// Type Definitions
-const size_t = ref.types.size_t;
-const int = ref.types.int;
-const uchar = ref.types.uchar;
-const ucharPtr = ref.refType(uchar);
-const size_tPtr = ref.refType(size_t);
-
-// Load Library
-const libName = os.platform() === 'darwin' ? 'libabhedya_ffi.dylib' : 'libabhedya_ffi.so';
-// Try local release build first, then system path
-const libPath = path.resolve(__dirname, '../../target/release', libName);
-
-const lib = ffi.Library(libPath, {
-    'abhedya_keygen': [int, [ucharPtr, size_tPtr, ucharPtr, size_tPtr]],
-    'abhedya_encrypt': [int, [ucharPtr, size_t, ucharPtr, size_t, int, ucharPtr, size_tPtr]],
-    'abhedya_decrypt': [int, [ucharPtr, size_t, ucharPtr, size_t, ucharPtr, size_tPtr]]
-});
-
-// Constants
-const N = 768;
-const BLOCK_SIZE = (N + 1) * 2; // 1538
 
 const EncryptionMode = {
     STANDARD: 0,
@@ -31,75 +8,138 @@ const EncryptionMode = {
 };
 
 class Abhedya {
-    constructor() {}
+    constructor(libPath) {
+        if (!libPath) {
+            libPath = this._findLibrary();
+        }
+        
+        try {
+            this.lib = koffi.load(libPath);
+        } catch (e) {
+            throw new Error(`Failed to load library at ${libPath}: ${e.message}`);
+        }
 
-    /**
-     * Generate KeyPair
-     * @returns {{publicKey: Buffer, secretKey: Buffer}}
-     */
+        // Define Types
+        // Rust boolean is usually 1 byte, but C bool can be int. 
+        // We use size_t for lengths.
+        
+        // KeyGen: (pk_buf, pk_len, sk_buf, sk_len) -> int
+        this.fn_keygen = this.lib.func('abhedya_keygen', 'int', ['uint8*', '_Inout_ size_t*', 'uint8*', '_Inout_ size_t*']);
+
+        // Encrypt: (pk, pk_len, msg, msg_len, mode, out, out_len) -> int
+        this.fn_encrypt = this.lib.func('abhedya_encrypt', 'int', ['uint8*', 'size_t', 'uint8*', 'size_t', 'int', 'uint8*', '_Inout_ size_t*']);
+
+        // Decrypt: (sk, sk_len, ct, ct_len, out, out_len) -> int
+        this.fn_decrypt = this.lib.func('abhedya_decrypt', 'int', ['uint8*', 'size_t', 'uint8*', 'size_t', 'uint8*', '_Inout_ size_t*']);
+    }
+
+    _findLibrary() {
+        const platform = os.platform();
+        let name = 'libabhedya_ffi';
+        let ext = '';
+        
+        if (platform === 'darwin') {
+            ext = '.dylib';
+        } else if (platform === 'win32') {
+            name = 'abhedya_ffi';
+            ext = '.dll';
+        } else {
+            ext = '.so';
+        }
+        
+        const filename = name + ext;
+        
+        // Search paths: 
+        // 1. Env var ABHEDYA_LIB
+        // 2. Local debug/release targets (dev mode)
+        // 3. System paths (production)
+        
+        if (process.env.ABHEDYA_LIB) return process.env.ABHEDYA_LIB;
+
+        const devRelease = path.join(__dirname, '../../target/release', filename);
+        if (require('fs').existsSync(devRelease)) return devRelease;
+
+        const devDebug = path.join(__dirname, '../../target/debug', filename);
+        if (require('fs').existsSync(devDebug)) return devDebug;
+        
+        // Fallback to expecting it in current dir or globally loadable
+        return filename;
+    }
+
     keygen() {
-        const pkSizeEstimate = (N * N + N) * 2;
-        const skSizeEstimate = N * 2;
+        // Prepare output buffers
+        // Kyber-768/Abhedya keys are approx: PK=1184, SK=2400. 
+        // We allocate slightly more to be safe.
+        const PK_CAP = 2048;
+        const SK_CAP = 4096;
+        
+        let pk = Buffer.alloc(PK_CAP);
+        let sk = Buffer.alloc(SK_CAP);
+        
+        // We need pointers to lengths
+        let pk_len = [PK_CAP];
+        let sk_len = [SK_CAP];
 
-        const pkBuf = Buffer.alloc(pkSizeEstimate);
-        const skBuf = Buffer.alloc(skSizeEstimate);
-        const pkLen = ref.alloc(size_t, pkSizeEstimate);
-        const skLen = ref.alloc(size_t, skSizeEstimate);
+        const res = this.fn_keygen(pk, pk_len, sk, sk_len);
 
-        const res = lib.abhedya_keygen(pkBuf, pkLen, skBuf, skLen);
-        if (res !== 0) throw new Error(`KeyGen failed with code ${res}`);
+        if (res !== 0) {
+            throw new Error(`KeyGen failed with code ${res}`);
+        }
 
         // Slice to actual size
-        const actualPkLen = pkLen.deref();
-        const actualSkLen = skLen.deref();
-
+        // koffi updates the array/object passed for Inout
         return {
-            publicKey: pkBuf.slice(0, actualPkLen),
-            secretKey: skBuf.slice(0, actualSkLen)
+            publicKey: pk.subarray(0, pk_len[0]),
+            secretKey: sk.subarray(0, sk_len[0])
         };
     }
 
-    /**
-     * Encrypt Message
-     * @param {Buffer} pk 
-     * @param {Buffer} msg 
-     * @param {number} mode 
-     */
     encrypt(pk, msg, mode = EncryptionMode.STANDARD) {
+        if (!Buffer.isBuffer(pk)) pk = Buffer.from(pk);
         if (!Buffer.isBuffer(msg)) msg = Buffer.from(msg);
-        
-        const numBits = msg.length * 8;
-        const maxOutLen = numBits * BLOCK_SIZE;
-        
-        const outBuf = Buffer.alloc(maxOutLen);
-        const outLen = ref.alloc(size_t, maxOutLen);
-        
-        const res = lib.abhedya_encrypt(pk, pk.length, msg, msg.length, mode, outBuf, outLen);
-        if (res !== 0) throw new Error(`Encryption failed with code ${res}`);
-        
-        const actualOutLen = outLen.deref();
-        return outBuf.slice(0, actualOutLen);
+
+        // Estimate ciphertext size
+        // Standard ~1KB, Metered can be larger. 
+        // 2x message size + overhead should be plenty for safety, 
+        // or just a fixed large buffer (e.g. 16KB) if unsure.
+        // For Abhedya, CT is fixed size for a block, but let's assume worst case.
+        const CT_CAP = 1024 * 64; // 64KB safe upper bound
+        let ct = Buffer.alloc(CT_CAP);
+        let ct_len = [CT_CAP];
+
+        const res = this.fn_encrypt(
+            pk, pk.length,
+            msg, msg.length,
+            mode,
+            ct, ct_len
+        );
+
+        if (res !== 0) {
+            throw new Error(`Encrypt failed with code ${res}`);
+        }
+
+        return ct.subarray(0, ct_len[0]);
     }
 
-    /**
-     * Decrypt Ciphertext
-     * @param {Buffer} sk 
-     * @param {Buffer} ct 
-     */
     decrypt(sk, ct) {
-        if (ct.length % BLOCK_SIZE !== 0) throw new Error('Invalid ciphertext length');
-        
-        const numBits = ct.length / BLOCK_SIZE;
-        const numBytes = Math.ceil(numBits / 8);
-        
-        const outBuf = Buffer.alloc(numBytes);
-        const outLen = ref.alloc(size_t, numBytes);
-        
-        const res = lib.abhedya_decrypt(sk, sk.length, ct, ct.length, outBuf, outLen);
-        if (res !== 0) throw new Error(`Decryption failed with code ${res}`);
-        
-        const actualOutLen = outLen.deref();
-        return outBuf.slice(0, actualOutLen);
+        if (!Buffer.isBuffer(sk)) sk = Buffer.from(sk);
+        if (!Buffer.isBuffer(ct)) ct = Buffer.from(ct);
+
+        const OUT_CAP = 1024 * 64; 
+        let out = Buffer.alloc(OUT_CAP);
+        let out_len = [OUT_CAP];
+
+        const res = this.fn_decrypt(
+            sk, sk.length,
+            ct, ct.length,
+            out, out_len
+        );
+
+        if (res !== 0) {
+            throw new Error(`Decrypt failed with code ${res}`);
+        }
+
+        return out.subarray(0, out_len[0]);
     }
 }
 

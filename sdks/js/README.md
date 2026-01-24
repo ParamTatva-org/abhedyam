@@ -10,7 +10,8 @@ Abhedya is a high-performance Post-Quantum Cryptography (PQC) library enabling *
 - **Dual Mode**:
   - **Standard**: High-throughput binary encryption.
   - **Metered**: Steganographic mode producing Sanskrit-metered ciphertexts.
-- **Performance**: FFI-based bindings for native speed.
+- **Performance**: High-speed C-FFI using `koffi` (Node.js 25+ compatible).
+- **Zero-Copy**: Efficient buffer management.
 
 ## Installation
 
