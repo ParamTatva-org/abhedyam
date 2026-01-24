@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "abhedya"
-version = "1.0.5"
+version = "1.0.8"
 description = "Sanskrit-Encoded Post-Quantum Cryptography SDK"
 readme = "README.md"
 authors = [
