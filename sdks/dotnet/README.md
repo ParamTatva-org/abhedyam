@@ -1,14 +1,30 @@
 # Abhedya .NET SDK
 
-To use Abhedya in .NET (C#), use P/Invoke (`[DllImport]`).
+C# Bindings for Abhedya Post-Quantum Cryptography.
 
-## Implementation Guide
+## Requirements
+
+- .NET 8.0 SDK
+- Rust (to build native core)
+
+## Usage
 
 ```csharp
-using System.Runtime.InteropServices;
+using Abhedyam.Sdk;
+using System.Text;
 
-public class Abhedya {
-    [DllImport("abhedya_ffi", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int abhedya_keygen(byte[] pk, ref ulong pk_len, byte[] sk, ref ulong sk_len);
-}
+var keys = Abhedya.GenerateKeys();
+
+byte[] msg = Encoding.UTF8.GetBytes("Hello World");
+byte[] ciphertext = Abhedya.Encrypt(keys.PublicKey, msg);
+
+byte[] decrypted = Abhedya.Decrypt(keys.SecretKey, ciphertext);
+Console.WriteLine(Encoding.UTF8.GetString(decrypted));
+```
+
+## Building
+
+```bash
+dotnet build
+dotnet pack -c Release
 ```

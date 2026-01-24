@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: abhedya
+Description: Sanskrit-Encoded Post-Quantum Cryptography SDK
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -labhedya_ffi
+Cflags: -I${includedir}

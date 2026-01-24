@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>1.0.5</Version>
+    <Authors>ParamTatva</Authors>
+    <Description>Sanskrit-Encoded Post-Quantum Cryptography SDK</Description>
+    <PackageId>Abhedyam.Sdk</PackageId>
+    <PackageTags>cryptography;quantum;sanskrit;security</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/ParamTatva-org/abhedyam</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Native library resolving is tricky. Usually we pack runtimes/ folder. -->
+    <None Include="..\..\target\release\libabhedya_ffi.dylib" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+      <Pack>true</Pack>
+      <PackagePath>runtimes/osx-x64/native/libabhedya_ffi.dylib</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\target\release\abhedya_ffi.dll" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+      <Pack>true</Pack>
+      <PackagePath>runtimes/win-x64/native/abhedya_ffi.dll</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\target\release\libabhedya_ffi.so" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+      <Pack>true</Pack>
+      <PackagePath>runtimes/linux-x64/native/libabhedya_ffi.so</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
