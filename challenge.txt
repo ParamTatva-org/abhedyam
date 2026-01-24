@@ -1,0 +1,14 @@
+Algorithm: Abhedya Hybrid (Kyber-768 + ChaCha20)
+Mode: Metered (Anushtubh)
+Note: Compact ciphertext using Module-LWE (Kyber Standard).
+To Decrypt:
+1. Recover Session Key from KEM Header (requires SK).
+2. Decrypt Body using ChaCha20 (Key=SS, Nonce=0s).
+
+--- BEGIN KEM HEADER (Kyber Ciphertext) ---
+kā hṛ ja yi ki jhṝ hḷ nṛ । pṝ ne cū jhṛ gū bā ṣa pu । ṇḷ ḍo ṅe lḹ ṭḹ ḍā yū phḹ । ṇa gī jhṝ vi gu sai jhū jho । gu hī ca thū mū ho hu jhu । jī jhḹ yi he ṇā ṭe nu the । ghū te ki ḍhi ghū che khi jhṝ । dai gai ṅo po ghu phu ga ṣḷ । ṭi bi ṣṝ ṭhḷ jhā ṇe jhā yṛ । sū bhu ṅū mi ḍṛ phu ṭhḹ ḍḷ । ṇṛ ṇu ṅu nḷ pu rḹ ṭṛ ñu । bha śḹ śi khḹ chū mā vu ṭhe । ni chṛ bhṝ jhi khṛ thā da chai । nṝ ke hi śu sḹ ghṛ lṛ tha । ṇṝ ṅa jhu bhṛ ṇi vo ha yu । ḍṝ śū ṣū mṛ dhu dḹ ḍhḹ ṣa । hai dṛ rṛ jo ḍṝ lṝ yī nu । ṅḹ na rḹ mḷ du ki rḷ yṝ । ṅe bha dhai ñḷ hi hṝ śa ja । phai ṭhū chḷ che jho ṅā phṛ ḍi । ṇo khḷ dhe si ṇai ṭḷ bā la । lḹ ka ṭa he je da ṅḷ da । vi bī tḷ yṛ cu gḹ kḹ ña । ṭu ṇai ṅai du na śo cṛ vḷ । ṅī tū dhḷ ri ḍe ṇai ṇā cḷ । ṭṛ ṭa śā ṭa ru vṛ kū ḍhā । rṛ ra khe mḹ yṛ du cṝ bha । khu ṭu ghai ṅḹ ḍi ghi ṣa gṛ । dha ṭī vū ma ṇḷ to hi ha । gi jhai jḹ chā ṇā khḹ ṇṛ sā । mo ṭhḹ thū bha re jhi gḷ jhu । tai ṭḷ śā ñḹ ji nai ṅa bi । lo cai ñi ṇṝ bai bhḹ ṭhḹ si । khā ñḹ ḍa phi ṇṛ sḹ ghṝ khi । tṝ ṇo je ho se khī hū jḹ । hi khṝ kho phi hḹ ñu lṝ dhḷ । ña sḹ ṣai ṣḹ ṇu ḍhu da dḹ । no me ṅu ña mū hū ṅḷ khi । ṅṝ ghṝ ca thā ru ñu ṭu gā । ghā lu ra bhḹ dṝ ṇi bhā dḷ । ḍhai ṭā śū ṣḷ pai cā bḹ śa । yā dhi bṝ ṇṛ ya nā rai ṭhā । ṇi na vu bhū ya ṭha bhḷ phe । mo phi ḍe phi chū he ṣḹ so । ke sai nḹ ṭḷ jhṝ bo śū ṣu । rṝ khḷ yḷ ḍṝ ḍu lai kṛ nai । ti pū thi lḷ hi ni khḷ vo । jai bai ghi ghṝ li da śu jḷ । ṣū gḹ sḹ gṝ ta nṛ ḍḹ bṝ । po ño ṭā ṣe gṝ vu bi jḷ । dṝ the chu ya ṣā lā ṣī hḷ । pai ḍā ñā ṇa bho lṛ bi yḷ । thū gu gḹ ṭhi ṭhī ṭhū le ṅḷ । bi su chai śe chī gu nu chṛ । jhḷ ḍi rī dhū jhṛ lṝ tḹ pḷ । ñā ṣṛ jho phḹ ra bi ḍhe khi । śo ñṛ ko śṛ bhṝ hṛ jha jhū । dḷ ñe ghā yū nu va chṛ hḷ । ṣu hu ghṛ rū ḍhḹ phū phi ghu । khṝ the pā khū phī gha rā ghḷ । gi ṅe da tho ṭu ṇa sū bu । phḷ jhā ḍhu ghḷ mḷ di ñā ghṛ । ho dṛ ḍī mḹ du lḹ ña ki । hi gṛ jḷ ṅa chū chi yu tḷ । dṝ ṇu nḷ ṇa ṭhe ṅṝ bhṝ ñā । cū phu ḍu bhḹ vḷ dhḹ jhḹ sṝ । pa ju te thu cha lṛ ḍhḷ ṣḹ । ḍḹ gā ṅī jo ṣa pi chi bū ।
+--- END KEM HEADER ---
+
+--- BEGIN DEM BODY (Encrypted Message) ---
+gai mi hai ṭhu ghṝ li ne ḍhā । gī go bu ṭo ḍṝ yi śai dḷ । ca ki ṭhi ba phḹ ko ḍo gḹ । ña khu phai bhe cho dhi ba jū । nṛ ñu jha gḹ ghḷ chu cṛ khū । chu lḷ vṛ ge tḹ
+--- END DEM BODY ---
