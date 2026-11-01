@@ -103,8 +103,8 @@ Benchmark aberto da contribuição 1.0.45 (`sdks/js/`), mensagem de 14 B, 10 rep
 | Operação | STANDARD (ML-KEM-768) | CLASSIC (AES-256-GCM) |
 |---|---|---|
 | keygen (par KEM) | média 0,978 ms · p50 0,213 ms | — |
-| cifrar (→ poema) | média 2,308 ms · p50 1,185 ms | média 1,058 ms · p50 0,752 ms |
-| decifrar (poema →) | média 1,653 ms · p50 1,422 ms | média 0,575 ms · p50 0,456 ms |
+| criptografar (→ poema) | média 2,308 ms · p50 1,185 ms | média 1,058 ms · p50 0,752 ms |
+| descriptografar (poema →) | média 1,653 ms · p50 1,422 ms | média 0,575 ms · p50 0,456 ms |
 | **processo completo** | **média 4,939 ms · p50 2,823 ms** | **média 1,633 ms · p50 1,200 ms** |
 
 A superioridade da arquitetura corrigida não está em entregar um Kyber sem latência — está em **entregar o trabalho que o reprodutor espera**: máximos de milissegundos em vez de alegações de microssegundos em um modo que não decifra. Sem SIMD manual, sem pré-cálculo não auditável, com HKDF a cada cifra: código portável que roda em qualquer máquina com Node moderno — e devolve, em milissegundos, o ciclo inteiro com versos completos e puṣpikā verificável (`॥ iti … ॥`).
