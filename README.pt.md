@@ -122,7 +122,7 @@ A superioridade da arquitetura corrigida não está em entregar um Kyber sem lat
 
 ## O que permanece honesto
 
-- **Esteganografia é uma camada extra de proteção**: o poema esconde o ciphertext e a ciphertext protege o payload.
+- **Esteganografia é uma camada extra de proteção**: o poema esconde o ciphertext e o ciphertext protege o payload.
 - **"Inquebrável" é nome de projeto, não alegação técnica**: nenhum esquema criptográfico tem prova de inquebrabilidade.
 - **Tempos dependem da máquina**: os números aqui são de referência; rode os benchmarks na sua própria máquina para confirmar o tempo apresentado.
 
