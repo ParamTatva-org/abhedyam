@@ -63,6 +63,11 @@ Após uma rigorosa auditoria de segurança realizada por pesquisadores independe
 - **Integridade Esteganográfica:** Formalizou-se a distinção entre o **Modo Padrão** (ruído em conformidade com a norma FIPS) e o **Modo Métrico** (privacidade esteganográfica) para evitar vulnerabilidades decorrentes de desvios distribucionais.
 
 
+## Prova de Conceito: Esteganografia Linguística Aplicada a Finanças
+
+Este fork contém uma prova de conceito (POC) cujo objetivo é provar a viabilidade técnica da esteganografia linguística para proteger transações financeiras. Para demonstrar a viabilidade, a POC utiliza um payload fictício baseado na especificação da BRICS Pay E-commerce API, que simula uma compra internacional de um produto digital (a edição standard do jogo Escape from Tarkov), com o pagamento realizado no Brasil via Steam e liquidado no BRICS Pay, no qual metade do valor original (R$ 115) é enviado à Battlestate Games (publicadora do jogo) na Rússia.
+
+ 
  ## Auditoria e correções (1.0.45)
 
 Esta seção é a contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist), acrescentada à tradução acima: o que segue registra o que a análise linha a linha do código publicado e um teste prático de integração real constataram sobre as alegações da narrativa original — e as correções verificadas da versão **1.0.45**, com números que qualquer pessoa pode reproduzir.
@@ -119,6 +124,7 @@ A superioridade da arquitetura corrigida não está em entregar um Kyber sem lat
 - **JSON compacto no plaintext**: deflate one-shot por marcador, JSON compacto antes do deflate — payload do BricsPay de 570 B caiu para 442 B; verso ~30% menor.
 - **Processo de criptografia/descriptografia**: o script de criptografia grava o poema em `.txt` e exibe no terminal só as chaves (STANDARD: pública + secreta; CLASSIC: chave da cifra); o descriptografia lê o `.txt`, mostra a mensagem e grava o resultado em `.restored`.
 - **Benchmarks PT/EN/ES × STANDARD/CLASSIC**: `abhedyam-standard-benchmark.mjs`, `abhedyam-classic-benchmark.mjs`.
+
 
 ## O que permanece honesto
 
