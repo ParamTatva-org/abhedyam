@@ -1,10 +1,7 @@
-# Análise de defeitos — abhedya-kem 1.0.24 (src/lib.rs)
+# Análise — abhedya-kem 1.0.24 (src/lib.rs)
 
-Data: 2026-10-24 · Fonte: docs.rs/abhedya-kem/1.0.24/src/abhedya_kem/lib.rs · Owner: aaryavrate · MIT · Repo: ParamTatva-org/abhedyam
 
-Contexto: LWE PKE sobre N=768, Q=3329 (params "Kyber-768" sem estrutura de anel), com modo `EncryptionMode::Metered` para ciphertexts legíveis como verso sânscrito. Dependência: `abhedya-chhandas ^1.0.5` e `rand ^0.9.2`. Docs: 0% documentado.
-
-## 1. CRÍTICO — Modo Metered quebra a decifragem (e o teste esconde)
+## 1. Modo Metered quebra a decifragem (e o teste esconde)
 
 - `lib.rs:200-219`: o ruído é ajustado *depois* de calcular o ciphertext, tomando o primeiro `offset` válido de `-128..=128` que satisfaz peso + truncamento. Como o varrimento começa em `-128`, o offset efetivamente escolhido fica quase sempre ≈ **-125**.
 - Consequência: o erro efetivo de `u` deixa de ser ternário e vira `e' ≈ -125` por coordenada.
