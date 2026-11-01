@@ -1,0 +1,24 @@
+{
+  "paymentReference": "PEDIDO18051974",
+  "method":           "PIX",
+  "currencyTicker":   "BRL",
+  "returnUrl":        "https://battlestategames.com/return",
+  "successUrl":       "https://battlestategames.com/success",
+ "client": {
+    "billing": {
+      "countryCode": "BR",
+      "email":       "MarceloSilva@tutamail.com",
+      "phone":       "+558119872001",
+      "firstName":   "Marcelo",
+      "lastName":    "Silva"
+    }
+  },
+  "products": [
+    {
+      "name":      "Escape from Tarkov - Standard Edition",
+      "sku":  "eft-standard edition",
+      "unitPrice": 57.05,
+      "quantity":  1
+    }
+  ]
+}
