@@ -1,14 +1,14 @@
-# abhedya-chhandas 1.0.24 — Analysis of the metric mode
+# abhedya-chhandas 1.0.24 — Analysis of the Metered Mode
 
-**About the test session.** The metric mode was tested in the field from **July 2 to August 8, 2026**. That analysis **does not question, reinterpret or reopen** that session: it exists solely to **map and document the causes** of the observed failure. The tests produced the data; that document organizes the why of it.
+**About the test session.** The metered mode was tested in the field from **July 2 to August 8, 2026**. That analysis **does not question, reinterpret or reopen** that session: it exists solely to **map and document the causes** of the observed failure. The tests produced the data; that document organizes the why of it.
 
-**About the practical test — real integration in the lore plugin.** There is a record of a concrete test, beyond the programming languages in which Abhedyam is available: `Revision-Mantra LUS.md` (03-08-2026) documents the attempt of the **Mantra** fork to put Abhedyam into real use — encrypting the plugin's Lore with `@abhedyam/sdk` (same N=768/Q=3329 code tree) **in METERED mode**, exactly the metric mode analyzed here. That integration constituted a practical test of the metric mode, in another environment; its failure is recorded in the LUS review at the JS layer and in this project's complement at the Rust/PQC layer. The review document, without knowing the deep errors of the code, offered paths for a real integration; **this analysis records the test and does not validate those paths** — section 8 explains why.
+**About the practical test — real integration in the lore plugin.** There is a record of a concrete test, beyond the programming languages in which Abhedyam is available: `Revision-Mantra LUS.md` (03-08-2026) documents the attempt of the **Mantra** fork to put Abhedyam into real use — encrypting the plugin's Lore with `@abhedyam/sdk` (same N=768/Q=3329 code tree) **in METERED mode**, exactly the metered mode analyzed here. That integration constituted a practical test of the metric mode, in another environment; its failure is recorded in the LUS review at the JS layer and in this project's complement at the Rust/PQC layer. The review document, without knowing the deep errors of the code, offered paths for a real integration; **this analysis records the test and does not validate those paths** — section 8 explains why.
 
 **Provenance.** The package is the one published on crates.io (`Cargo.toml` normalized by the registry, crate `abhedya-chhandas 1.0.24`, ParamTatva-org/abhedyam). The local `src/lib.rs` is identical to the published one analyzed in `abhedya-kem 1.0.24 - Análise.md` (section 1) — no divergence between the local and published source.
 
 ---
 
-## 1. What the metric mode promises and who consumes it
+## 1. What the Metered Mode promises and who consumes it
 
 `encode_vector(vec, use_meter = true)` (`lib.rs:75-88`) promises: values → Sanskrit syllables organized in **Anushtubh** (yati `।` every 8 syllables), with Laghu/Guru weights applied by `to_sanskrit`/`get_matra_weight`. The direct consumer of the underlying numeric space is `abhedya-kem` in `EncryptionMode::Metered`, which enforces "Even=Laghu, Odd=Guru" over `u % 16`.
 
@@ -66,7 +66,7 @@ In real Sanskrit, Laghu/Guru is determined by **position**, not only by the iden
 
 ## 8. The test in the lore plugin and the non-validated paths
 
-The Mantra fork was, in fact, the **practical test of Abhedyam's metric mode**: the 1st test session (02-07 to 08-08) exercised it directly in the field; the Mantra integration (Revision Mantra LUS, 03-08) put it into a real pipeline — encrypting the plugin's Lore with `@abhedyam/sdk` in metric mode. Both tests failed for the same root cause: the verse never closed the cycle (Causes 1 and 3). Therefore, **no integration, on any channel, preserves the data** with the original pipeline.
+The Mantra fork was, in fact, the **practical test of Abhedyam's metered mode**: the 1st test session (02-07 to 08-08) exercised it directly in the field; the Mantra integration (Revision Mantra LUS, 03-08) put it into a real pipeline — encrypting the plugin's Lore with `@abhedyam/sdk` in metered mode. Both tests failed for the same root cause: the verse never closed the cycle (Causes 1 and 3). Therefore, **no integration, on any channel, preserves the data** with the original pipeline.
 
 The three paths of the Mantra review were written without knowledge of the deep errors of the native Rust code. The review treated the PQC layer as badly instrumented — missing binary, misused API, swapped keys — that is, as accessory defects, repairable. This analysis shows there are instrument defects (Causes 1, 3, 4) underneath them: even with the binary present, the API correct and the keys matched, the data is lost at encoding, **before** any ciphering. For that reason the paths stay here **unvalidated**, one by one:
 
@@ -87,7 +87,7 @@ The three paths of the Mantra review were written without knowledge of the deep 
 6  weight by matra only       →  nothing reads as authentic meter, even after fixing 1–5
 ```
 
-**Any of them, alone, already topples the metric mode**; 1 + 3 **combine** with the directional fault of cause 2. The field-observed failure between 02-07 and 08-08 is the one predictable from the architecture of Cause 1: non-injectivity + danda → a result that does not decode. The test session recorded the consequence; this analysis documents the causes.
+**Any of them, alone, already topples the metered mode**; 1 + 3 **combine** with the directional fault of cause 2. The field-observed failure between 02-07 and 08-08 is the one predictable from the architecture of Cause 1: non-injectivity + danda → a result that does not decode. The test session recorded the consequence; this analysis documents the causes.
 
 ## 10. What the correction proves
 
