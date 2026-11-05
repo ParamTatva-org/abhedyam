@@ -131,7 +131,7 @@ La superioridad de la arquitectura corregida no está en entregar un Kyber sin l
 - **"Inquebrantable" es el nombre del proyecto, no una afirmación técnica**: ningún esquema criptográfico tiene prueba de inquebrantabilidad.
 - **Los tiempos dependen de la máquina**: los números aquí son de referencia; ejecuta los benchmarks en tu propia máquina para confirmar el tiempo presentado.
 
-  ## Reproducir
+## Reproducir
 
 ```bash
  cd abhedyam-1.0.45
