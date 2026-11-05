@@ -147,22 +147,22 @@ node abhedyam-standard-encrypt-pt.mjs
 node abhedyam-standard-decrypt-pt.mjs
  ```
 
-A contribuição inclui também os dois documentos que abriram a auditoria — `abhedya-kem 1.0.24 - Análise.md` e `abhedya-chhandas 1.0.24 - Modo Métrico - Análise.md` (PT/EN/ES) — citados na seção Fontes.
+A contribuição inclui também os documentos da auditoria — `abhedya-kem 1.0.24 - Análise.md` e `abhedya-chhandas 1.0.24 - Modo Métrico - Análise.md` (PT/EN/ES) — citados na seção Fontes.
 
 ## Fontes
 
 - **Análise de defeitos — `abhedya-kem 1.0.24` (`src/lib.rs`)**, 2026-10-24: análise linha a linha do código **publicado** (docs.rs, crate 1.0.24, MIT, ParamTatva-org/abhedyam). Resumo: §1 o modo Metered quebra a própria decifragem (e o teste esconde); §2 o "verso" prometido não existe (`to_sanskrit` nunca é chamado); §3 inconsistência com o crate `abhedya-chhandas` (domínio 3168 vs Z_528, pesos fonéticos falsos); §4 é um PKE, não KEM; §5-§6 bugs latentes e alegações de segurança vs. realidade (CT falsa, `dot_avx2` morto, ruído η=1, pk de 1,2 MB); §7 a métrica S-L-S-L não é Anuṣṭubh (só os postos 5 e 6 são fixos na métrica real). Complemento em `abhedya-chhandas 1.0.24` (crates.io): o teste `test_metered_mode_constraints` valida o corte numérico `idx < 8` e nunca lê o verso — "a prova verde mede o atributo errado".
-- **Revisão-Mantra_LUS** (análise de Andrés Peña, LUS/Logos, 03-08-2026): o **teste prático de integração real** do Abhedyam no lore-plugin — o fork Mantra (autor terceiro) tentou cifrar o lore com `@abhedyam/sdk` (N=768/Q=3329, METERED) e registrou, de forma verificável: binário nativo ausente (`koffi.load()` lança na primeira linha), API mal usada (objeto vs. posições; `result.ciphertext` sobre Buffer), perda de dados garantida a partir do segundo guardado, rota quebrada dentro do plugin, sobrescrever em vez de acumular, frontmatter quebrado, `node_modules/` commitado. "Estado: não funciona — não é uma opinião; é verificável". [Arquivo `Revisão-Mantra_LUS.md` nesta contribuição]
+- **Revisão-Mantra_LUS** (análise de Andrés Peña, LUS/Logos, 03-08-2026): o **teste prático de integração real** do Abhedyam no lore-plugin — o fork Mantra (autor terceiro) tentou cifrar o lore com `@abhedyam/sdk` (N=768/Q=3329, METERED) e registrou, de forma verificável: binário nativo ausente (`koffi.load()` lança na primeira linha), API mal usada (objeto vs. posições; `result.ciphertext` sobre Buffer), perda de dados garantida a partir do segundo guardado, rota quebrada dentro do plugin, sobrescrever em vez de acumular, frontmatter quebrado, `node_modules/` commitado. "Estado: não funciona — não é uma opinião; é verificável". [Arquivo `Revisão-Mantra_LUS.md´]
 
 
 
 ## Licença e atribuição
 
-O código upstream permanece sob a licença MIT original ([LICENSE](LICENSE)) — e é isso que corrige a narrativa: o código da alegação dos 20× sempre esteve à disposição sob MIT; a auditoria linha a linha só aparece nesta contribuição. As correções 1.0.45 seguem MIT. Métrica e nomes em sânscrito pertencem à tradição; correções e medições são da contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist).
+O código original permanece sob a licença MIT original ([LICENSE](LICENSE)) — e é isso que corrige a narrativa: o código sempre esteve à disposição sob MIT; a auditoria só aparece nesta contribuição. As correções 1.0.45 seguem MIT. Métrica e nomes em sânscrito pertencem à tradição; correções e medições são da contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist).
 
 ---
 
-*Todos os números deste README vêm dos benchmarks inclusos, rodados na data da contribuição (2026-11-01). A fonte original destas páginas permanece no histórico do fork para confronto lado a lado.* 
+*Todos os números deste README vêm dos benchmarks inclusos, rodados na data da contribuição (2026-11-01). A fonte original permanece no histórico do fork para confronto lado a lado.* 
 
 ---
 
