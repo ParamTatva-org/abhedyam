@@ -154,7 +154,7 @@ La contribución también incluye los documentos de la auditoría — `abhedya-k
 
 ## Licencia y atribución
 
-El código upstream permanece bajo la licencia MIT original ([LICENSE](LICENSE)) — y eso es lo que corrige la narrativa: el código de la alegación de los 20× siempre ha estado disponible bajo MIT; la auditoría línea por línea solo aparece en esta contribución. Las correcciones 1.0.45 siguen siendo MIT. La métrica y los nombres en sánscrito pertenecen a la tradición; las correcciones y mediciones son de la contribución de [Lonely Alchemist](https://github.com/lonelyalchemist).
+El código fuente permanece bajo la licencia MIT original ([LICENSE](LICENSE)) — y eso es lo que corrige la narrativa: el código siempre ha estado disponible bajo MIT; la auditoría solo aparece en esta contribución. Las correcciones 1.0.45 siguen siendo MIT. La métrica y los nombres en sánscrito pertenecen a la tradición; las correcciones y mediciones son de la contribución de [Lonely Alchemist](https://github.com/lonelyalchemist).
 
 
 **ParamTatva**, 2026.
