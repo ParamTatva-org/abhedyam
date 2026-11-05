@@ -63,22 +63,22 @@ Após uma rigorosa auditoria de segurança realizada por pesquisadores independe
 - **Integridade Esteganográfica:** Formalizou-se a distinção entre o **Modo Padrão** (ruído em conformidade com a norma FIPS) e o **Modo Métrico** (privacidade esteganográfica) para evitar vulnerabilidades decorrentes de desvios distribucionais.
 
 
-## Prova de Conceito: Esteganografia Linguística Aplicada a Finanças
+## Prova de Conceito: Esteganografia Linguística Aplicada a Finanças (1.0.45)
 
 Este fork contém uma prova de conceito (POC) cujo objetivo é provar a viabilidade técnica da esteganografia linguística para proteger transações financeiras. Para demonstrar a viabilidade, a POC utiliza um payload fictício baseado na especificação da BRICS Pay E-commerce API, que simula uma compra internacional de um produto digital (a edição standard do jogo Escape from Tarkov), com o pagamento realizado no Brasil via Steam e liquidado no BRICS Pay, no qual metade do valor original (R$ 115) é enviado à Battlestate Games (publicadora do jogo) na Rússia.
 
  
  ## Auditoria e correções (1.0.45)
 
-Esta seção é a contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist), acrescentada à tradução acima: o que segue registra o que a análise linha a linha do código publicado e um teste prático de integração real constataram sobre as alegações da narrativa original — e as correções verificadas da versão **1.0.45**, com números que qualquer pessoa pode reproduzir.
+Esta seção é a contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist), acrescentada à tradução acima: o que segue registra o que a análise linha a linha do código publicado e um teste prático de integração real constataram sobre as alegações da narrativa original — e as correções verificadas da versão **1.0.45**, com números que qualquer pessoa pode veriificar.
 
 ## Síntese
 
-A auditoria não reproduziu, de forma independente, nenhuma das três alegações centrais do README original ("~5 µs de decifra, 20× mais rápido que Kyber", "ciphertext indistinguível de Mahakavya válida", "auditoria de segurança por pesquisadores independentes v1.0.1"). O trabalho consistiu em uma análise linha a linha do código publicado e um teste prático de integração real: leu-se o código que foi de fato publicado, executou-se o que roda, mediu-se o que se podia medir, e reescreveu-se a implementação para que o projeto faça o que diz — com números declarados que qualquer pessoa pode verificar.
+As auditorias não reproduziram, de forma independente, nenhuma das três alegações centrais do README original ("~5 µs de decifra, 20× mais rápido que Kyber", "ciphertext indistinguível de Mahakavya válida", "auditoria de segurança por pesquisadores independentes v1.0.1"). O trabalho consistiu em uma análise linha a linha do código publicado e um teste prático de integração real: leu-se o código que foi de fato publicado, executou-se o que roda, mediu-se o que se podia medir, e reescreveu-se a implementação para que o projeto faça o que afirma.
 
 ## Nota sobre a metodologia 
 
-A falha do código original foi identificada empiricamente por meio de testes práticos conduzidos entre 02 de julho e 08 de agosto de 2026. As análises assistidas por IA (OpenCode) foram utilizadas posteriormente como ferramenta de apoio para mapear e documentar as causas da falha. A conclusão final e a correção proposta (versão 1.0.45) são de responsabilidade do autor da contribuição.
+A falha do código original foi identificada empiricamente por meio de testes práticos conduzidos entre 02 de julho e 08 de agosto de 2026. As auditorias assistidas por IA (OpenCode) foram utilizadas posteriormente como ferramenta de apoio para mapear e documentar as causas da falha. A conclusão final e a correção proposta (versão 1.0.45) são de responsabilidade do autor da contribuição.
 
 ## Afirmação → constatação
 
@@ -95,7 +95,7 @@ A falha do código original foi identificada empiricamente por meio de testes pr
 
 ### 1. A comparação é um erro de categoria
 
-Kyber-768/ML-KEM é um **KEM**: encapsula um segredo e não cifra mensagens. "20× mais rápido que Kyber" compara um pipeline completo (KEM + cifra autenticada + esteganografia + métrica poética) com uma operação que, por si, não cifra nada. Kyber sozinho não entrega nenhuma das funções que o projeto promete — portanto não existe "mais rápido que Kyber" para esse trabalho.
+Kyber-768/ML-KEM é um **KEM**: encapsula um segredo e não cifra mensagens. "20× mais rápido que Kyber" compara um pipeline completo (KEM + cifra autenticada + esteganografia + métrica poética) com uma operação que, por si, não cifra nada. Kyber sozinho não entrega nenhuma das funções que o projeto promete — portanto a afirmação de ser "mais rápido que Kyber" não possui sustentação no código original. 
 
 ### 2. O número alegado não é reproduzível nos artefatos publicados
 
