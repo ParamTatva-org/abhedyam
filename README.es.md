@@ -63,7 +63,8 @@ Tras una rigurosa auditoría de seguridad realizada por investigadores independi
 - **Eliminación del sesgo**: Se ha aplicado un estricto **truncamiento del módulo** ($q < 3168$) para garantizar una correspondencia perfectamente uniforme con el alfabeto sánscrito, eliminando así cualquier sesgo estadístico.
 - **Integridad esteganográfica**: Se ha formalizado la distinción entre el **modo estándar** (ruido conforme a FIPS) y el **modo métrico** (privacidad esteganográfica) para prevenir vulnerabilidades por deriva distribucional.
 
-  ## Prueba de Concepto: Esteganografía Lingüística Aplicada a Finanzas (1.0.45)
+
+## Prueba de Concepto: Esteganografía Lingüística Aplicada a Finanzas (1.0.45)
 
 Este fork contiene una prueba de concepto (POC) cuyo objetivo es demostrar la viabilidad técnica de la esteganografía lingüística para proteger transacciones financieras. Para demostrar la viabilidad, la POC utiliza una carga útil ficticia basada en la especificación de la BRICS Pay E-commerce API que simula una compra internacional de un producto digital (la edición estándar del juego Escape from Tarkov), con el pago realizado en Brasil vía Steam y liquidado en BRICS Pay, en la cual la mitad del valor original (R$ 115) se envía a Battlestate Games (publicadora del juego) en Rusia.
 
@@ -128,8 +129,32 @@ La superioridad de la arquitectura corregida no está en entregar un Kyber sin l
 
 - **Esteganografía es una capa adicional de protección**: el poema oculta el cifrado y el cifrado protege el payload.
 - **"Inquebrantable" es el nombre del proyecto, no una afirmación técnica**: ningún esquema criptográfico tiene prueba de inquebrantabilidad.
-- **Los tiempos dependen de la máquina**: los números aquí son de referencia; ejecuta los benchmarks en tu propia máquina para confirmar el tiempo presentado. 
+- **Los tiempos dependen de la máquina**: los números aquí son de referencia; ejecuta los benchmarks en tu propia máquina para confirmar el tiempo presentado.
 
+  ## Reproducir
+
+```bash
+ cd abhedyam-1.0.45
+
+# Elige el sufijo del idioma: - en, - es o - pt
+node abhedyam-classic-benchmark-es.mjs 
+node abhedyam-standard-benchmark-es.mjs 
+node abhedyam-classic-encrypt-es.mjs 
+node abhedyam-classic-decrypt-es.mjs 
+node abhedyam-standard-encrypt-es.mjs 
+node abhedyam-standard-decrypt-es.mjs
+ ```
+
+La contribución también incluye los documentos de la auditoría — `abhedya-kem 1.0.24 - Análise.md` y `abhedya-chhandas 1.0.24 - Modo Métrico - Análisis.md` (PT/EN/ES) — citados en la sección Fuentes.
+
+## Fuentes
+
+- **Análisis de defectos — `abhedya-kem 1.0.24` (`src/lib.rs`)**, 2026-10-24: análisis línea por línea del código **publicado** (docs.rs, crate 1.0.24, MIT, ParamTatva-org/abhedyam). Resumen: §1 el modo Metered rompe la propia descifrado (y la prueba lo oculta); §2 el "verso" prometido no existe (`to_sanskrit` nunca se llama); §3 inconsistencia con el crate `abhedya-chhandas` (dominio 3168 vs Z_528, pesos fonéticos falsos); §4 es un PKE, no KEM; §5-§6 bugs latentes y alegaciones de seguridad vs. realidad (CT falsa, `dot_avx2` muerto, ruido η=1, pk de 1,2 MB); §7 la métrica S-L-S-L no es Anuṣṭubh (solo las posiciones 5 y 6 son fijas en la métrica real). Complemento en `abhedya-chhandas 1.0.24` (crates.io): la prueba `test_metered_mode_constraints` valida el corte numérico `idx < 8` y nunca lee el verso — "la prueba verde mide el atributo incorrecto".
+- **Revisión-Mantra_LUS** (análisis de Andrés Peña, LUS/Logos, 03-08-2026): la **prueba práctica de integración real** de Abhedyam en el lore-plugin — el fork Mantra (autor tercero) intentó cifrar el lore con `@abhedyam/sdk` (N=768/Q=3329, METERED) y registró, de forma verificable: binario nativo ausente (`koffi.load()` lanza en la primera línea), API mal utilizada (objeto vs. posiciones; `result.ciphertext` sobre Buffer), pérdida de datos garantizada a partir del segundo guardado, ruta rota dentro del plugin, sobrescribir en lugar de acumular, frontmatter roto, `node_modules/` commitado. "Estado: no funciona — no es una opinión; es verificable". [Archivo `Revisión-Mantra_LUS.docx´]
+
+## Licencia y atribución
+
+El código upstream permanece bajo la licencia MIT original ([LICENSE](LICENSE)) — y eso es lo que corrige la narrativa: el código de la alegación de los 20× siempre ha estado disponible bajo MIT; la auditoría línea por línea solo aparece en esta contribución. Las correcciones 1.0.45 siguen siendo MIT. La métrica y los nombres en sánscrito pertenecen a la tradición; las correcciones y mediciones son de la contribución de [Lonely Alchemist](https://github.com/lonelyalchemist).
 
 
 **ParamTatva**, 2026.
