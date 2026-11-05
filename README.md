@@ -63,6 +63,26 @@ Following a rigorous security audit by independent researchers, the core library
 - **Bias Elimination**: Enforced strict **Modulus Truncation** ($q < 3168$) to guarantee perfectly uniform mapping to the Sanskrit alphabet, removing all statistical bias.
 - **Steganographic Integrity**: Formalized the distinction between **Standard Mode** (FIPS-compliant noise) and **Metered Mode** (Steganographic privacy) to prevent distributional drift vulnerabilities.
 
+## Proof of Concept: Linguistic Steganography Applied to Finance (1.0.45)
+
+This fork contains a proof of concept (POC) whose goal is to demonstrate the technical feasibility of linguistic steganography to protect financial transactions. To demonstrate feasibility, the POC uses a fictitious payload based on the BRICS Pay E-commerce API specification, which simulates an international purchase of a digital product (the standard edition of the game Escape from Tarkov), with the payment made in Brazil via Steam and settled through BRICS Pay, in which half of the original amount (R$ 115) is sent to Battlestate Games (the game's publisher) in Russia.
+
+## Audits and corrections (1.0.45)
+
+This section is the contribution of [Lonely Alchemist](https://github.com/lonelyalchemist), added to the above translation: what follows records what the line-by-line analysis of the published code and a real integration test verified about the claims of the original narrative — and the verified corrections of version **1.0.45**, with numbers that anyone can verify. 
+
+
+
+## Summary
+
+The audits did not independently reproduce any of the three main claims from the original README ("~5 µs to decrypt, 20× faster than Kyber", "ciphertext indistinguishable from valid Mahakavya", "security audit by independent researchers v1.0.1"). The audits consisted of a line-by-line analysis of the published code and a practical real-world integration test: the code that was actually published was read, what runs was executed, what could be measured was measured, and the implementation was rewritten so that the project does what it claims.
+
+## Note on the methodology
+
+The failure of the original code was empirically identified through practical tests conducted between July 2 and August 8, 2026. AI-assisted audits (OpenCode) were subsequently used as a support tool to map and document the causes of the failure. The final conclusion and the proposed correction (version 1.0.45) are the responsibility of the contributor. 
+
+
+
 ---
 
 **ParamTatva**, 2026.
