@@ -61,8 +61,75 @@ Tras una rigurosa auditoría de seguridad realizada por investigadores independi
 
 - **Eliminación del oráculo de temporización**: Se ha implementado la **codificación en tiempo constante** con búsqueda de ventana fija optimizada para AVX2, lo que garantiza que el tiempo de cifrado sea independiente del mensaje secreto.
 - **Eliminación del sesgo**: Se ha aplicado un estricto **truncamiento del módulo** ($q < 3168$) para garantizar una correspondencia perfectamente uniforme con el alfabeto sánscrito, eliminando así cualquier sesgo estadístico.
-- **Integridad esteganográfica**: Se ha formalizado la distinción entre el **modo estándar** (ruido conforme a FIPS) y el **modo métrico** (privacidad esteganográfica) para prevenir vulnerabilidades por deriva distribucional. 
+- **Integridad esteganográfica**: Se ha formalizado la distinción entre el **modo estándar** (ruido conforme a FIPS) y el **modo métrico** (privacidad esteganográfica) para prevenir vulnerabilidades por deriva distribucional.
 
----
+  ## Prueba de Concepto: Esteganografía Lingüística Aplicada a Finanzas (1.0.45)
+
+Este fork contiene una prueba de concepto (POC) cuyo objetivo es demostrar la viabilidad técnica de la esteganografía lingüística para proteger transacciones financieras. Para demostrar la viabilidad, la POC utiliza una carga útil ficticia basada en la especificación de la BRICS Pay E-commerce API que simula una compra internacional de un producto digital (la edición estándar del juego Escape from Tarkov), con el pago realizado en Brasil vía Steam y liquidado en BRICS Pay, en la cual la mitad del valor original (R$ 115) se envía a Battlestate Games (publicadora del juego) en Rusia.
+
+## Auditoría y correcciones (1.0.45)
+
+Esta sección es la contribución de [Lonely Alchemist](https://github.com/lonelyalchemist), añadida a la traducción anterior: lo que sigue registra lo que el análisis línea por línea del código publicado y una prueba práctica de integración real constataron sobre las afirmaciones de la narrativa original — y las correcciones verificadas de la versión **1.0.45**, con números que cualquier persona puede verificar.
+
+## Síntesis
+
+Las auditorías no reprodujeron, de forma independiente, ninguna de las tres afirmaciones centrales del README original ("~5 µs de descifrado, 20× más rápido que Kyber", "texto cifrado indistinguible de Mahakavya válido", "auditoría de seguridad por investigadores independientes v1.0.1"). El trabajo consistió en un análisis línea por línea del código publicado y una prueba práctica de integración real: se leyó el código que fue publicado, se ejecutó lo que era ejecutable, se midió lo que se pudo medir, y se reescribió la implementación para que el proyecto cumpla lo que afirma. 
+
+## Nota sobre la metodología
+
+La falla del código original fue identificada empíricamente mediante pruebas prácticas realizadas entre el 02 de julio y el 08 de agosto de 2026. Las auditorías asistidas por IA (OpenCode) se utilizaron posteriormente como herramienta de apoyo para mapear y documentar las causas de la falla. La conclusión final y la corrección propuesta (versión 1.0.45) son responsabilidad del autor de la contribución. 
+
+## Afirmación → constatación
+
+| La lectura original afirma | Lo que constató las auditorías |
+|---|---|
+| ["~5 µs" para descifrar, 20× más rápido que Kyber; "< 1 µs" en el camino de cifrado (docs/superiority.md)](docs/superiority.md) | El modo ESTÁNDAR tarda en promedio **1,653 ms** y el ciclo completo **4,939 ms**; CLASSIC tarda en promedio **0,575 ms** (p50 0,456 ms). Ningún número en microsegundos fue reproducido; ver [La afirmación de los 20× más rápidos](#la-afirmación-de-los-20x-más-rápidos) |
+| ["Resistencia basada en la red de reticulados (LWE) en conformidad con el Nivel 3 del NIST (Kyber-768)"](README.pt.md) | El crate publicado (`abhedya-kem 1.0.24`) es **un PKE, no un KEM**: no posee `encapsulate`/`decapsulate`, ni secreto compartido, ni KDF ([análisis §4](#fuentes)). Su modo "Metered" **no descifra**: el ruido ajustado posteriormente (≈ −125 por coordenada) eleva `s·e'` a desviación ≈ 2450 contra el umbral de decisión `Q/4 = 832` — error de bit cercano al 50% por símbolo ([§1](#fuentes)) |
+| ["Cifrado indistinguible de una poesía épica (Mahakavya) válida en sánscrito"](README.es.md) | En el código publicado, "`to_sanskrit` nunca se llama" — el modo que anuncia "Chhandas Output, High Steganography" genera solo enteros truncados, ningún verso ([§2 del análisis](#fuentes)). La versión 1.0.45 escribe poemas de verdad (sargas Anuṣṭubh 8 hemistíquios + puṣpikā con hash del contenido), pero "indistinguible de Mahakavya válida" sigue siendo una aspiración: el universo es de 528 sílabas ordenadas, detectable por estadística en principio |
+| ["Auditoría rigurosa de seguridad por investigadores independientes v1.0.1: Codificación en Tiempo Constante AVX2, truncamiento q < 3168"](README.es.md) | Código publicado: `dot_avx2` es código muerto (nunca llamado); la afirmación de tiempo constante es falsa en la práctica (`if r_val == 0 { continue }` y ramificación de salida temprana sobre datos); el comentario anuncia "81 intentos" para un bucle de 257; el truncamiento `< 3168` no coincide con el dominio del propio crate chhandas (Z_528; 3168/528 = 6 vueltas — mapeo ambiguo, sin decodificación unívoca) ([§3, §5, §6 del análisis](#fontes)). No se ha identificado ningún investigador de la auditoría citada, poniendo en duda su veracidad. |
+| [`challenge.txt`: "Descifrar cuerpo usando ChaCha20 (Clave=SS, Nonce=0s)"`](challenge.txt) | Orientación peligrosa: el mismo par de claves con nonce fijo reutiliza la keystream entre mensajes, destruyendo la confidencialidad. La versión 1.0.45 vincula la clave simétrica al ciphertext del KEM (`HKDF(ss, salt=kem_ct)`) precisamente para evitar esta clase de fallas. |
+| ["El código fuente principal es propiedad de ParamTatva... distribuido bajo licencia MIT"](README.es.md) | Contradicción interna: código fuente "propietario" bajo [licencia MIT](LICENSE), que existe precisamente para permitir auditoría y redistribución. La declaración correcta requiere elegir: código abierto auditable o alegaciones de terceros. |
+
+## La afirmación de los 20× más rápidos
+
+### 1. La comparación es un error de categoría
+
+Kyber-768/ML-KEM es un **KEM**: encapsula un secreto y no cifra mensajes. "20× más rápido que Kyber" compara un pipeline completo (KEM + cifrado autenticado + esteganografía + métrica poética) con una operación que, por sí misma, no cifra nada. Kyber solo no entrega ninguna de las funciones que el proyecto promete — por lo tanto, la afirmación de "más rápido que Kyber" no tiene sustento en el código original. 
+
+### 2. El número alegado no es reproducible en los artefactos publicados
+
+La prueba práctica de integración real ([Revisión-Mantra_LUS](#fontes), LUS/Logos, 03-08-2026) documentó que el SDK publicado ni siquiera llega a ejecutarse: el binding `@abhedyam/sdk` es solo un `koffi.load()` por una biblioteca nativa ausente del npm y del repositorio — "koffi.load() lanza excepción en la primera línea". El mismo registro documentó el API mal utilizado (llamadas con objeto cuando el SDK espera posiciones; lectura de `result.ciphertext` cuando `encrypt` devuelve Buffer) y pérdida de datos garantizada a partir del segundo guardado. Ningún camino "offline/online" con pre-cálculo de pad (superiority.md §4) existe en código auditable publicado.
+
+### 3. Lo que hace la arquitectura corregida
+
+Benchmark abierto de la contribución 1.0.45 (`sdks/js/`), mensaje de 14 B, 10 repeticiones:
+
+| Operación | STANDARD (ML-KEM-768) | CLASSIC (AES-256-GCM) |
+|---|---|---|
+| keygen (par KEM) | media 0,978 ms · p50 0,213 ms | — |
+| cifrado (→ poema) | media 2,308 ms · p50 1,185 ms | media 1,058 ms · p50 0,752 ms |
+| descifrado (poema →) | media 1,653 ms · p50 1,422 ms | media 0,575 ms · p50 0,456 ms |
+| **proceso completo** | **media 4,939 ms · p50 2,823 ms** | **media 1,633 ms · p50 1,200 ms** |
+
+La superioridad de la arquitectura corregida no está en entregar un Kyber sin latencia — está en **entregar el trabajo que el reproductor espera**: máximos de milisegundos en lugar de afirmaciones de microsegundos en un modo que no descifra. Sin SIMD manual, sin pre-cálculo no auditable, con HKDF en cada cifra: código portátil que funciona en cualquier máquina con Node moderno — y devuelve, en milisegundos, todo el ciclo con versos completos y puṣpikā verificable (`॥ iti … ॥`).
+
+## Las correcciones y adiciones de la 1.0.45
+
+- **SDK JavaScript auditable** (`sdks/js/index.js`): sin dependencias nativas — solo `node:crypto`; elimina la vinculación `koffi` sobre biblioteca ausente.
+- **STANDARD** = KEM de las reglas: **ML-KEM-768** (FIPS 203) vía `generateKeyPairSync`/`encapsulate`/`decapsulate`; clave AES-256-GCM derivada `HKDF(ss, salt = ciphertext-KEM, 'abhedya-kem-aes/v1')` — la clave queda atada al sobre que la transporta.
+- **CLASSIC** = AES-256-GCM de clave bruta de 32 B (ex-"METERED": en la 1.0.41 este nombre era solo etiqueta de salida de la misma cifra — no era algoritmo distinto).
+- **Poema completo en ambos modos**: sargas Anuṣṭubh de 8 hemistíquios (2 shlokas = 64 sílabas) y marcadores romanos para enumerar las sargas del poema.
+- **Puṣpikā (पुष्पिका)** — el colofón que cierra el poema: `॥ iti <29 sílabas del hash del contenido> ॥`.
+- **JSON compacto en texto plano**: deflate de una sola vez por marcador, JSON compacto antes del deflate — la carga útil de BricsPay de 570 B cayó a 442 B; verso ~30% menor.
+- **Proceso de cifrado/descifrado**: el script de cifrado guarda el poema en `.txt` y muestra en el terminal solo las claves (ESTÁNDAR: pública + secreta; CLÁSICO: clave de la cifra); el descifrado lee el `.txt`, muestra el mensaje y guarda el resultado en `.restored`.
+- **Benchmarks PT/EN/ES × ESTÁNDAR/CLÁSICO**: `abhedyam-standard-benchmark.mjs`, `abhedyam-classic-benchmark.mjs`.
+
+ ## Lo que permanece honesto
+
+- **Esteganografía es una capa adicional de protección**: el poema oculta el cifrado y el cifrado protege el payload.
+- **"Inquebrantable" es el nombre del proyecto, no una afirmación técnica**: ningún esquema criptográfico tiene prueba de inquebrantabilidad.
+- **Los tiempos dependen de la máquina**: los números aquí son de referencia; ejecuta los benchmarks en tu propia máquina para confirmar el tiempo presentado. 
+
+
 
 **ParamTatva**, 2026.
