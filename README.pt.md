@@ -70,11 +70,11 @@ Este fork contém uma prova de conceito (POC) cujo objetivo é provar a viabilid
  
  ## Auditoria e correções (1.0.45)
 
-Esta seção é a contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist), acrescentada à tradução acima: o que segue registra o que a análise linha a linha do código publicado e um teste prático de integração real constataram sobre as alegações da narrativa original — e as correções verificadas da versão **1.0.45**, com números que qualquer pessoa pode veriificar.
+Esta seção é a contribuição de [Lonely Alchemist](https://github.com/lonelyalchemist), acrescentada à tradução acima: o que segue registra o que a análise linha a linha do código publicado e um teste prático de integração real constataram sobre as alegações da narrativa original — e as correções verificadas da versão **1.0.45**, com números que qualquer pessoa pode verificar.
 
 ## Síntese
 
-As auditorias não reproduziram, de forma independente, nenhuma das três alegações centrais do README original ("~5 µs de decifra, 20× mais rápido que Kyber", "ciphertext indistinguível de Mahakavya válida", "auditoria de segurança por pesquisadores independentes v1.0.1"). O trabalho consistiu em uma análise linha a linha do código publicado e um teste prático de integração real: leu-se o código que foi de fato publicado, executou-se o que roda, mediu-se o que se podia medir, e reescreveu-se a implementação para que o projeto faça o que afirma.
+As auditorias não reproduziram, de forma independente, nenhuma das três alegações centrais do README original ("~5 µs de decifra, 20× mais rápido que Kyber", "ciphertext indistinguível de Mahakavya válida", "auditoria de segurança por pesquisadores independentes v1.0.1"). As auditorias consistiram em uma análise linha a linha do código publicado e um teste prático de integração real: leu-se o código que foi de fato publicado, executou-se o que roda, mediu-se o que se podia medir, e reescreveu-se a implementação para que o projeto faça o que afirma.
 
 ## Nota sobre a metodologia 
 
