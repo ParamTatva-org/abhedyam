@@ -1,8 +1,8 @@
-# abhedya-chhandas 1.0.24 — Auditoria do modo métrico
+# abhedya-chhandas 1.0.24 — Auditoria do motor chhandas
 
 ## 1. Metodologia e Validação Empírica
 
-**Metodologia:** A metodologia adotada foi híbrida. A auditoria do código foi conduzida por IA (OpenCode), que foi utilizada para mapear e documentar as causas estruturais da falha. No entanto, a premissa desta auditoria partiu da comprovação empírica: testes de integração e execução do código, realizados previamente, comprovaram que o crate não rodava como deveria. A IA foi utilizada para explicar tecnicamente o "porquê" da falha que já havia sido observado na prática.
+**Metodologia:** A metodologia adotada foi híbrida. A auditoria desse crate foi conduzida por IA (OpenCode), que foi utilizada para mapear e documentar as causas estruturais da falha. No entanto, a premissa desta auditoria partiu da comprovação empírica: testes de integração e execução do código, realizados previamente, comprovaram que o crate não rodava como deveria. A IA foi utilizada para explicar tecnicamente o "porquê" da falha que já havia sido observado na prática.
 
 **Sessão de testes:** O modo métrico foi testado do dia **2 de Julho ao dia 8 de Agosto de 2026**. Essa auditoria **não questiona, reinterpreta ou reabre** essa sessão: ela existe unicamente para **mapear e documentar as causas** da falha observada. Os testes produziram o dado; esse documento organiza o porquê dele.
 
