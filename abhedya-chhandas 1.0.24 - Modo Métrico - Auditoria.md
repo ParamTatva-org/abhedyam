@@ -12,7 +12,6 @@
 
 **Procedência:** O pacote é o publicado no crates.io (`Cargo.toml` normalizado pela registry, crate `abhedya-chhandas 1.0.24`, ParamTatva-org/abhedyam). O `src/lib.rs` local é idêntico ao analisado em `abhedya-kem 1.0.24 - Auditoria.md` (seção 1) — nenhuma divergência entre fonte local e publicada.
 
----
 
 ## 2. O que o modo métrico promete e quem o consome
 
