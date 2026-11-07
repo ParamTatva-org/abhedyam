@@ -1,9 +1,9 @@
-# abhedya-kem 1.0.24 - Auditoria do modo Standard 
+# abhedya-kem 1.0.24 - Auditoria do motor KEM
 
 
 ## 1. Nota sobre a Metodologia
 
-A metodologia adotada foi híbrida. A auditoria do código foi conduzida por IA (OpenCode), que foi utilizada para mapear e documentar as causas estruturais da falha. No entanto, a premissa desta auditoria partiu da comprovação empírica: testes de integração e execução do código, realizados previamente, comprovaram que o crate não rodava como deveria. A IA foi utilizada para explicar tecnicamente o "porquê" da falha que já havia sido observada na prática.
+A metodologia adotada foi híbrida. A auditoria desse crate foi conduzida por IA (OpenCode), que foi utilizada para mapear e documentar as causas estruturais da falha. No entanto, a premissa desta auditoria partiu da comprovação empírica: testes de integração e execução do código, realizados previamente, comprovaram que o crate não rodava como deveria. A IA foi utilizada para explicar tecnicamente o "porquê" da falha que já havia sido observada na prática.
 
 ### Causa 1 — Modo Metered quebra a decifragem (e o teste esconde)
 
