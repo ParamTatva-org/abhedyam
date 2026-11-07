@@ -69,7 +69,7 @@ O teste do kem (`test_metered_mode_constraints`) valida o corte numérico `idx <
 
 Em sânscrito real, Laghu/Guru é determinado por **posição**, não só pela identidade da matra: sílabas antes de consoantes aspiradas ou conjuntas viram Guru por posição (uma consonância que não existe em versão numericamente pura). `to_sanskrit` atribui peso apenas pela identidade da matra (`lib.rs:22-26`, `14-16`). Mesmo com A–E corrigidos, o produto seria um texto com padrão métrico verificável por contagem, jamais por leitura: qualquer leitor treinado reconheceria o texto como prosimétrico, o que ofende o valor adicional que o modo métrico pretendia ter (encobrir a natureza cifrada do texto).
 
-### 3. O teste no lore-plugin e os caminhos não validados
+## 3. O teste no lore-plugin e os caminhos não validados
 
 O fork Mantra foi, de fato, o **teste prático do modo métrico do Abhedyam**: A integração Mantra (Revision Mantra LUS, 03-08) levou Abhedyam a um pipeline real — cifrar o Lore do plugin com o `@abhedyam/sdk` no modo métrico. O teste falhou pela causa-raiz: o verso nunca fechou o ciclo (Causas 1 e 3). Logo, **nenhuma integração, em qualquer canal, preserva o dado** com o pipeline original.
 
