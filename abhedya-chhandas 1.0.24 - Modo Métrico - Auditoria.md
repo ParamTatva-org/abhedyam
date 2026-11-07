@@ -65,7 +65,7 @@ O teste do kem (`test_metered_mode_constraints`) valida o corte numérico `idx <
 
 `c_idx % 33` (`lib.rs:46`) com comment de "uniform distribution across consonants": `65536 mod 528 = 64` → os 64 primeiros residues têm dobra **sistematicamente maior**. Para codificação de payload criptográfico uniforme, a alegação do comentário é sem fundamento — o bias é real, previsível e mensurável.
 
-## Causa 6 — nada modela peso por posição (o verso nunca seria autêntico)
+### Causa 6 — nada modela peso por posição (o verso nunca seria autêntico)
 
 Em sânscrito real, Laghu/Guru é determinado por **posição**, não só pela identidade da matra: sílabas antes de consoantes aspiradas ou conjuntas viram Guru por posição (uma consonância que não existe em versão numericamente pura). `to_sanskrit` atribui peso apenas pela identidade da matra (`lib.rs:22-26`, `14-16`). Mesmo com A–E corrigidos, o produto seria um texto com padrão métrico verificável por contagem, jamais por leitura: qualquer leitor treinado reconheceria o texto como prosimétrico, o que ofende o valor adicional que o modo métrico pretendia ter (encobrir a natureza cifrada do texto).
 
