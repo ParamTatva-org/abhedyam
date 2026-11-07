@@ -25,7 +25,7 @@ A metodologia adotada foi híbrida. A auditoria desse crate foi conduzida por IA
 - A dependência `^1.0.5` puxa a versão mais nova do crate com colisões de mapeamento (bug confirmado na análise do chhandas; correção de referência: `abhedya-chhandas.mjs`, bijetivo em Z_528).
 - **Comentário "81 tentativas"** (`lib.rs:223`) vs. loop de **257** iterações (`-128..=128`).
 
-### Causa 4 — É um mecanismo de PKE, não KEM
+### Causa 4 — É um motor de PKE, não KEM
 
 - Não há `encapsulate`/`decapsulate`, segredo compartilhado nem KDF. Mensagens são bits por par `(u, v)`.
 - `m` fora de `{0,1}` vira `0` silenciosamente (`lib.rs:234`, `if m == 1`), apesar da assinatura `&[i16]`.
